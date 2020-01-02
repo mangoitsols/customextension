@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mangoit
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mangoit
+ * @package     Mangoit_SubCategoryListing
+ * @copyright   Copyright (c) 2019 Mangoit 
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Mangoit_SubCategoryListing::subcategorylisting" title="Mangoit" module="Mangoit_SubCategoryListing" sortOrder="51" resource="Mangoit_SubCategoryListing::configuration"/>
+        <add id="Mangoit_SubCategoryListing::subcategory_configuration" title="Sub Category Listing Configuration" module="Mangoit_SubCategoryListing" sortOrder="99" parent="Mangoit_SubCategoryListing::subcategorylisting" action="adminhtml/system_config/edit/section/mangoit_subcategorylisting" resource="Mangoit_SubCategoryListing::configuration"/>
+    </menu>
+</config>

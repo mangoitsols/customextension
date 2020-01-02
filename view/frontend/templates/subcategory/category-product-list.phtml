@@ -1,0 +1,85 @@
+<?php
+/**
+ * Mangoit Solutions Software.
+ *
+ * @category  Mangoit
+ * @package   Mangoit_SubCategoryListing
+ * @author    Mangoit
+ * @copyright Copyright (c) 2019 Mangoit Solutions Private Limited (https://www.mangoitsolutions.com)
+ * @license   https://store.webkul.com/license.html
+ * @var $block \Mangoit\SubCategoryListing\Block\Widget\SubCategoryListing
+ */
+if ($block->getStatus()) {// Module is enable/disable from admin
+    $totalPage = 0;
+    $count = 0;
+    $countCat = 0;
+    $categoryId = $block->getRequest()->getParam('id');
+    $product_list_limit = $block->getRequest()->getParam('product_list_limit');
+    $collection = $block->getCategoriesCollection($categoryId);
+    $parentCategory = $block->getParentCategory($categoryId);
+
+    foreach ($collection as $category) {
+        $title = $parentCategory->getName() ? __($parentCategory->getName()) : 'Categories';
+        $product_count = 0;
+        $children_count = 0;
+        ?>
+            <div class="block-title">
+                <strong role="heading" aria-level="2"><h3><?= /* @noEscape */ __($title)  ?></h3></strong>
+            </div><?php
+            # @var $countCat get count of subcategories
+            $countCat = $category->getChildrenCategories()->count();
+            $childrenCategories = $category->getChildrenCategories();
+            $count = count($childrenCategories);
+            if ($childrenCategories) { ?>
+                <div class="categories-rows">
+                    <div class="row" id="ajax-load-more">
+                        <?php
+                        foreach ($childrenCategories as $childrenCategory) {
+                            if (!$childrenCategory->getIsActive()) {
+                                continue;
+                            }
+                            $children_count++;
+                            $altImgUrl = $block->getViewFileUrl('Mangoit_SubCategoryListing::images/category_image.jpg');
+                            $img = $block->getCategoryImage($childrenCategory->getId());
+                            $imgUrl = $img['url'];
+                            $imgName = $img['image'];
+                            $product_count = $childrenCategory->getProductCount();
+                            $categoryName = $childrenCategory->getName();
+                            if ($imgName!="") {
+                                $resizedImage = $block->resize($imgName, 250, 250); ?>
+                                    <div class="col-lg-3 category-data col-md-3 colunms-50">
+                                       <a href="<?= /* @noEscape */ $childrenCategory->getUrl($childrenCategory); ?>">
+                                        <div class="category-thumb">
+                                            <div class="category-images">
+                                                <img src="<?= /* @noEscape */ $resizedImage; ?>" width="300px">
+                                                <a class="category-name" href="<?= /* @noEscape */ $childrenCategory->getUrl($childrenCategory); ?>"><?= /* @noEscape */ $categoryName ?></a>
+                                            </div>
+                                            <div class="category-products">
+                                                <span><?= /* @noEscape */ $product_count > 1 ? $product_count.'&nbsp;'.__('Products'):$product_count.'&nbsp;'.__('Product')?></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    </div><?php
+                            } else { ?>
+                                    <div class="col-lg-3 col-md-3 category-data colunms-50">
+                                        <a href="<?= /* @noEscape */ $childrenCategory->getUrl($childrenCategory); ?>">
+                                        <div class="category-thumb">
+                                            <div class="category-images">
+                                                <img src="<?= /* @noEscape */ $altImgUrl; ?>" width="300px">
+                                                <a class="category-name" href="<?= /* @noEscape */ $childrenCategory->getUrl($childrenCategory); ?>"><?= /* @noEscape */ $categoryName; ?></a>
+                                            </div>
+                                            <div class="category-products">
+                                                <span><?= /* @noEscape */ $product_count > 1 ? $product_count.'&nbsp;'.__('Products'):$product_count.'&nbsp;'.__('Product')?></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    </div><?php
+                            }
+                        }
+                        ?> 
+                    </div>
+                </div><?php
+            }
+    }
+}
+?>
