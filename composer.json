@@ -2,7 +2,7 @@
     "name": "mangoit/subcategorylisting",
     "description": "Mangoit SubCategoryListing",
     "require": {
-      "php": "~5.6.0|7.0.2|~7.0.6|>7.0",
+      "php": "~5.6.0|7.0.2|7.0.4|~7.0.6|~7.1.0|~7.1.30|~7.2.12",
       "magento/module-store": "0.74.0-beta4",
       "magento/module-theme": "0.74.0-beta4",
       "magento/module-widget": "0.74.0-beta4",
